@@ -1,3 +1,4 @@
+com\upiiz\superheroes\controllers\GlobalExceptionHadler.class
 com\upiiz\superheroes\controllers\HeroeController.class
 com\upiiz\superheroes\responses\CustomResponseHeroe.class
 com\upiiz\superheroes\SuperheroesApplication.class

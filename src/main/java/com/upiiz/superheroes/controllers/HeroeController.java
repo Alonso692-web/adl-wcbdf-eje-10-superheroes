@@ -29,7 +29,7 @@ public class HeroeController {
     @GetMapping
     public ResponseEntity<CustomResponseHeroe<List<HeroeEntity>>> getHeroe() {
         List<HeroeEntity> heroes = new ArrayList<>();
-        Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
+            Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
         try {
             heroes = heroeService.getAllHeroes();
@@ -37,10 +37,10 @@ public class HeroeController {
                 CustomResponseHeroe<List<HeroeEntity>> response = new CustomResponseHeroe<>(1, "Heroe encontrados", heroes, links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(6, "Heroes no encontrados", heroes, links));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(0, "Heroes no encontrados", heroes, links));
             }
         } catch (Exception e) {
-            CustomResponseHeroe<List<HeroeEntity>> response = new CustomResponseHeroe<>(8, "Error interno de servidor", heroes, links);
+            CustomResponseHeroe<List<HeroeEntity>> response = new CustomResponseHeroe<>(500, "Error interno de servidor", heroes, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -61,7 +61,7 @@ public class HeroeController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            response = new CustomResponseHeroe<>(0, "Error interno de servidor", null, links);
+            response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -76,10 +76,10 @@ public class HeroeController {
                 CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(1, "Heroe creado", heroeEntity, links);
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(6, "Heroe no encontrado", heroeEntity, links));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(0, "Heroe no encontrado", heroeEntity, links));
             }
         } catch (Exception e) {
-            CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(8, "Error interno de servidor", null, links);
+            CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
