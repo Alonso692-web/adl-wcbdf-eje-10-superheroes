@@ -13,7 +13,7 @@ public class CustomResponseHeroe<T> {
 
     private int estado;
     private String msg;
-    private T hereoes;
+    private T heroes;
     private List<Link> links;
 
 }
