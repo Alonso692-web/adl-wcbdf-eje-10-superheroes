@@ -68,49 +68,49 @@ public class HeroeController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomResponseHeroe<HeroeEntity>> crearHeroe(@RequestBody HeroeEntity heroe) {
+    public ResponseEntity<CustomResponseUnHeroe<HeroeEntity>> crearHeroe(@RequestBody HeroeEntity heroe) {
         Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
         try {
             HeroeEntity heroeEntity = heroeService.createHeroe(heroe);
             if (heroeEntity != null) {
-                CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(1, "Heroe creado", heroeEntity, links);
+                CustomResponseUnHeroe<HeroeEntity> response = new CustomResponseUnHeroe<>(1, "Heroe creado", heroeEntity, links);
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(0, "Heroe no encontrado", heroeEntity, links));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseUnHeroe<>(0, "Heroe no encontrado", heroeEntity, links));
             }
         } catch (Exception e) {
-            CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
+            CustomResponseUnHeroe<HeroeEntity> response = new CustomResponseUnHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     // PUT DE UN HEROE
     @PutMapping("/{id}")
-    public ResponseEntity<CustomResponseHeroe<HeroeEntity>> updateHeroe(@RequestBody HeroeEntity heroe, @PathVariable Long id) {
+    public ResponseEntity<CustomResponseUnHeroe<HeroeEntity>> updateHeroe(@RequestBody HeroeEntity heroe, @PathVariable Long id) {
         Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
         try {
             heroe.setId(id);
             if (!heroeService.getHeroeById(id).equals("")) {
                 HeroeEntity heroeEntity = heroeService.updateHeroe(heroe);
-                CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(1, "Heroe actualizado", heroeEntity, links);
+                CustomResponseUnHeroe<HeroeEntity> response = new CustomResponseUnHeroe<>(1, "Heroe actualizado", heroeEntity, links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
-                CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(0, "Heroe no encontrado", null, links);
+                CustomResponseUnHeroe<HeroeEntity> response = new CustomResponseUnHeroe<>(0, "Heroe no encontrado", null, links);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
+            CustomResponseUnHeroe<HeroeEntity> response = new CustomResponseUnHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     // DELETE UN HEROE
     @DeleteMapping("/{id}")
-    public ResponseEntity<CustomResponseHeroe<HeroeEntity>> deleteHeroeById(@PathVariable Long id) {
+    public ResponseEntity<CustomResponseUnHeroe<HeroeEntity>> deleteHeroeById(@PathVariable Long id) {
         Optional<HeroeEntity> heroeEntity = null;
-        CustomResponseHeroe<HeroeEntity> response = null;
+        CustomResponseUnHeroe<HeroeEntity> response = null;
         Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
 
@@ -118,14 +118,14 @@ public class HeroeController {
             heroeEntity = Optional.ofNullable(heroeService.getHeroeById(id));
             if (heroeEntity.isPresent()) {
                 heroeService.deleteHeroe(id);
-                response = new CustomResponseHeroe<>(1, "Heroe eliminado", null, links);
+                response = new CustomResponseUnHeroe<>(1, "Heroe eliminado", null, links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
-                response = new CustomResponseHeroe<>(0, "Heroe no encontrado", null, links);
+                response = new CustomResponseUnHeroe<>(0, "Heroe no encontrado", null, links);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
+            response = new CustomResponseUnHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
