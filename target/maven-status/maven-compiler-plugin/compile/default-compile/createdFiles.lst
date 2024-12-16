@@ -3,6 +3,7 @@ com\upiiz\superheroes\controllers\HeroeController.class
 com\upiiz\superheroes\responses\CustomResponseHeroe.class
 com\upiiz\superheroes\SuperheroesApplication.class
 com\upiiz\superheroes\config\OpenApiConfiguration.class
+com\upiiz\superheroes\responses\CustomResponseUnHeroe.class
 com\upiiz\superheroes\repositories\HeroeRepository.class
 com\upiiz\superheroes\services\HeroeService.class
 com\upiiz\superheroes\entities\HeroeEntity.class

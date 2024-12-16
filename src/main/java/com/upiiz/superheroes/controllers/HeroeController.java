@@ -2,6 +2,7 @@ package com.upiiz.superheroes.controllers;
 
 import com.upiiz.superheroes.entities.HeroeEntity;
 import com.upiiz.superheroes.responses.CustomResponseHeroe;
+import com.upiiz.superheroes.responses.CustomResponseUnHeroe;
 import com.upiiz.superheroes.services.HeroeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class HeroeController {
     @GetMapping
     public ResponseEntity<CustomResponseHeroe<List<HeroeEntity>>> getHeroe() {
         List<HeroeEntity> heroes = new ArrayList<>();
-            Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
+        Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
         try {
             heroes = heroeService.getAllHeroes();
             if (!heroes.isEmpty()) {
-                CustomResponseHeroe<List<HeroeEntity>> response = new CustomResponseHeroe<>(1, "Heroe encontrados", heroes, links);
+                CustomResponseHeroe<List<HeroeEntity>> response = new CustomResponseHeroe<>(1, "Heroes encontrados", heroes, links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponseHeroe<>(0, "Heroes no encontrados", heroes, links));
@@ -46,22 +47,22 @@ public class HeroeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomResponseHeroe<HeroeEntity>> getHeroeById(@PathVariable Long id) {
+    public ResponseEntity<CustomResponseUnHeroe<HeroeEntity>> getHeroeById(@PathVariable Long id) {
         Optional<HeroeEntity> hereoe = null;
-        CustomResponseHeroe<HeroeEntity> response = null;
+        CustomResponseUnHeroe<HeroeEntity> response = null;
         Link allHeroesLink = linkTo(HeroeController.class).withSelfRel();
         List<Link> links = List.of(allHeroesLink);
         try {
             hereoe = Optional.ofNullable(heroeService.getHeroeById(id));
             if (hereoe.isPresent()) {
-                response = new CustomResponseHeroe<>(1, "Heroe encontrado", hereoe.get(), links);
+                response = new CustomResponseUnHeroe<>(1, "Heroe encontrado", hereoe.get(), links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
-                response = new CustomResponseHeroe<>(0, "Heroe no encontrado", null, links);
+                response = new CustomResponseUnHeroe<>(0, "Heroe no encontrado", null, links);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } catch (Exception e) {
-            response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
+            response = new CustomResponseUnHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -95,11 +96,11 @@ public class HeroeController {
                 HeroeEntity heroeEntity = heroeService.updateHeroe(heroe);
                 CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(1, "Heroe actualizado", heroeEntity, links);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
-            }else{
+            } else {
                 CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(0, "Heroe no encontrado", null, links);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             CustomResponseHeroe<HeroeEntity> response = new CustomResponseHeroe<>(500, "Error interno de servidor", null, links);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
